@@ -1,20 +1,20 @@
-import { getByText } from "@testing-library/dom";
+import { findByText, fireEvent, getByText } from "@testing-library/dom";
 import "@testing-library/jest-dom";
 import { getContainer } from "./utils/test";
 
 let container;
 
 describe("before game start", () => {
-  beforeEach(() => {
-    container = getContainer();
+  beforeEach(async () => {
+    container = await getContainer();
   });
 
-  it("should render a heading", () => {
+  it("should render a heading", async () => {
     expect(getByText(container, "Blackjack")).toBeInTheDocument();
   });
 
   it("should render a button to start the game", () => {
-    expect(getByText(container, "Start game")).toBeInTheDocument();
+    expect(getByText(container, "Start Game")).toBeInTheDocument();
   });
 });
 
