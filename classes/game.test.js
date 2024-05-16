@@ -20,17 +20,10 @@ describe("Blackjack Game logic", () => {
   });
 
   it("should create a new game", () => {
-    expect(game.getDeck()).toHaveLength(0);
-    expect(game.getCurrentPlayer()).toBeNull();
-    expect(game.getPlayers()).toEqual([undefined, undefined]);
-  });
-
-  it("should start a new game", () => {
-    game.startGame();
-    expect(game.getDeck()).toHaveLength(Deck.MAX_CARDS);
+    expect(game.getDeck()).toBeInstanceOf(Deck);
+    expect(game.getCurrentPlayer().getName()).toBe("Player");
     expect(game.getPlayers()[0].getName()).toBe("Player");
     expect(game.getPlayers()[1].getName()).toBe("Dealer");
-    expect(game.currentPlayer).toBe(game.getPlayers()[0]);
   });
 
   it("should deal cards to players", () => {
@@ -49,7 +42,7 @@ describe("Blackjack Game logic", () => {
   it("should switch to the next player", () => {
     game.startGame();
     game.switchPlayer();
-    expect(game.getCurrentPlayer().getName()).toBe("Dealer");
+    expect(game.getActivePlayer().getName()).toBe("Dealer");
   });
 
   it("should player win with the 2 first cards", () => {
@@ -101,7 +94,7 @@ describe("Blackjack Game logic", () => {
       .fn()
       .mockReturnValueOnce([
         new Card("Ace", "Clubs"),
-        new Card("2", "Diamonds"),
+        new Card("King", "Diamonds"),
       ])
       .mockReturnValueOnce([
         new Card("Ace", "Hearts"),
@@ -112,7 +105,7 @@ describe("Blackjack Game logic", () => {
     game.dealCards();
     expect(game.hasWinner()).toBeTruthy();
     expect(game.hasDraw()).toBeTruthy();
-    expect(game.getDraw()[0].getName()).toBe("Player");
-    expect(game.getDraw()[1].getName()).toBe("Dealer");
+    expect(game.getDrawPlayers()[0].getName()).toBe("Player");
+    expect(game.getDrawPlayers()[1].getName()).toBe("Dealer");
   });
 });

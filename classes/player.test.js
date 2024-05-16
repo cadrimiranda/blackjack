@@ -94,4 +94,14 @@ describe("Player", () => {
     expect(player.getIsBusted()).toBe(false);
     expect(player.getHasBlackJack()).toBe(false);
   });
+
+  it("should clear the player's hand", () => {
+    player.addCard(new Card("Ace", "Spades"));
+    player.addCard(new Card("King", "Hearts"));
+    player.clearHand();
+    expect(player.getHandCards()).toHaveLength(0);
+    expect(player.getHandTotal()).toBe(0);
+    expect(player.getIsBusted()).toBe(false);
+    expect(player.getHasBlackJack()).toBe(false);
+  });
 });

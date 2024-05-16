@@ -7,6 +7,10 @@ class Player {
     this.score = 0;
   }
 
+  getName() {
+    return this.name;
+  }
+
   getIsBusted() {
     return this.isBusted;
   }
@@ -19,8 +23,8 @@ class Player {
     return this.hasBlackJack;
   }
 
-  addCard(cards) {
-    this.hand.push(cards);
+  setHand(cards) {
+    this.hand = cards;
     this.calculateHand();
   }
 
@@ -56,6 +60,13 @@ class Player {
   getHandTotal() {
     this.calculateHand();
     return this.score;
+  }
+
+  clearHand() {
+    this.hand = [];
+    this.isBusted = false;
+    this.hasBlackJack = false;
+    this.score = 0;
   }
 }
 
