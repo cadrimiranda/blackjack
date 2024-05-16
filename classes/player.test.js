@@ -85,4 +85,13 @@ describe("Player", () => {
     expect(player.getIsBusted()).toBe(true);
     expect(player.getHasBlackJack()).toBe(false);
   });
+
+  it("should ace with 1 point when player has multiple aces", () => {
+    player.addCard(new Card("Ace", "Spades"));
+    player.addCard(new Card("Ace", "Hearts"));
+    player.addCard(new Card("9", "Diamonds"));
+    expect(player.getHandTotal()).toBe(11);
+    expect(player.getIsBusted()).toBe(false);
+    expect(player.getHasBlackJack()).toBe(false);
+  });
 });
