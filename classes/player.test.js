@@ -32,24 +32,32 @@ describe("Player", () => {
     player.addCard(new Card("Ace", "Spades"));
     player.addCard(new Card("King", "Hearts"));
     expect(player.getHandTotal()).toBe(21);
+    expect(player.getIsBusted()).toBe(false);
+    expect(player.getHasBlackJack()).toBe(true);
   });
 
   it("should return player black jack with Ace and Queen", () => {
     player.addCard(new Card("Ace", "Spades"));
     player.addCard(new Card("Queen", "Hearts"));
     expect(player.getHandTotal()).toBe(21);
+    expect(player.getIsBusted()).toBe(false);
+    expect(player.getHasBlackJack()).toBe(true);
   });
 
   it("should return player black jack with Ace and Jack", () => {
     player.addCard(new Card("Ace", "Spades"));
     player.addCard(new Card("Jack", "Hearts"));
     expect(player.getHandTotal()).toBe(21);
+    expect(player.getIsBusted()).toBe(false);
+    expect(player.getHasBlackJack()).toBe(true);
   });
 
   it("should return player black jack with Ace and 10", () => {
     player.addCard(new Card("Ace", "Spades"));
     player.addCard(new Card("10", "Hearts"));
     expect(player.getHandTotal()).toBe(21);
+    expect(player.getIsBusted()).toBe(false);
+    expect(player.getHasBlackJack()).toBe(true);
   });
 
   it("should return ace with 1 point when player hand would bust", () => {
@@ -57,12 +65,16 @@ describe("Player", () => {
     player.addCard(new Card("9", "Hearts"));
     player.addCard(new Card("9", "Spades"));
     expect(player.getHandTotal()).toBe(19);
+    expect(player.getIsBusted()).toBe(false);
+    expect(player.getHasBlackJack()).toBe(false);
   });
 
   it("should return ace with 11 points when player hand would not bust", () => {
     player.addCard(new Card("Ace", "Spades"));
     player.addCard(new Card("9", "Hearts"));
     expect(player.getHandTotal()).toBe(20);
+    expect(player.getIsBusted()).toBe(false);
+    expect(player.getHasBlackJack()).toBe(false);
   });
 
   it("should return bust when player hand is over 21", () => {
@@ -70,5 +82,7 @@ describe("Player", () => {
     player.addCard(new Card("10", "Hearts"));
     player.addCard(new Card("2", "Diamonds"));
     expect(player.getHandTotal()).toBe(22);
+    expect(player.getIsBusted()).toBe(true);
+    expect(player.getHasBlackJack()).toBe(false);
   });
 });
