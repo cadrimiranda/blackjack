@@ -4,7 +4,7 @@ describe("Card", () => {
   let card;
 
   beforeEach(() => {
-    card = new Card("Spades", "Ace");
+    card = new Card("Ace", "Spades");
   });
 
   it("should have a suit", () => {
@@ -35,7 +35,7 @@ describe("Card", () => {
   });
 
   it("should return a string representation of the card", () => {
-    expect(card.toString()).toBe("Spades of Ace");
+    expect(card.toString()).toBe("Ace of Spades");
   });
 
   it("should return a string representation of the card when hidden", () => {
