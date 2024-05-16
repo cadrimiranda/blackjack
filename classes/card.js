@@ -1,5 +1,5 @@
 class Card {
-  constructor(suit, rank, isHidden = false) {
+  constructor(rank, suit, isHidden = false) {
     this.suit = suit;
     this.rank = rank;
     this.isHidden = isHidden;
@@ -30,7 +30,23 @@ class Card {
   }
 
   toString() {
-    return `${this.suit} of ${this.rank}`;
+    if (this.isHidden) {
+      return "Hidden";
+    }
+
+    return `${this.rank} of ${this.suit}`;
+  }
+
+  getValue() {
+    if (this.rank === "Ace") {
+      return 11;
+    }
+
+    if (["King", "Queen", "Jack"].includes(this.rank)) {
+      return 10;
+    }
+
+    return Number.parseInt(this.rank);
   }
 }
 
