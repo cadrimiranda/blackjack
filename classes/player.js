@@ -30,16 +30,16 @@ class Player {
 
   calculateHand() {
     let total = 0;
-    let hasAce = false;
+    let aceCount = 0;
     for (let card of this.hand) {
       total += card.getValue();
       if (card.rank === "Ace") {
-        hasAce = true;
+        aceCount += 1;
       }
     }
 
-    if (total > 21 && hasAce) {
-      total -= 10;
+    if (total > 21) {
+      total -= aceCount * 10;
     }
 
     if (total > 21) {
