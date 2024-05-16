@@ -1,7 +1,7 @@
 import Deck from "./deck";
 import Card from "./card";
 
-const MAX_CARDS = 52;
+const MAX_CARDS = Deck.MAX_CARDS;
 
 describe("Deck", () => {
   let deck;

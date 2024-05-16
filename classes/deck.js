@@ -18,6 +18,7 @@ class Deck {
     "Ace",
   ];
   deck = [];
+  static MAX_CARDS = 52;
 
   constructor() {
     this.initialize();
