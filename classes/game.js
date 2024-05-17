@@ -14,6 +14,10 @@ export class BlackjackGame {
     this.gameEnd = false;
   }
 
+  getDealer() {
+    return this.players.find((player) => player.getName() === "Dealer");
+  }
+
   getGameEnd() {
     return this.gameEnd;
   }
@@ -168,6 +172,10 @@ export class BlackjackGame {
 
     let card = this.deck.dealCard();
     this.activePlayer.addCard(card);
+
+    if (this.activePlayer.getIsBusted()) {
+      this.switchPlayer();
+    }
   }
 
   stand() {
