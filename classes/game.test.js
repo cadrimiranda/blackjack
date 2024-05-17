@@ -155,6 +155,24 @@ describe("Blackjack Game logic", () => {
     expect(game.getActivePlayer().getName()).toBe("Dealer");
   });
 
+  it("should hit, get score 21 and end game", () => {
+    deck = new Deck();
+    deck.dealCards = jest
+      .fn()
+      .mockReturnValueOnce([
+        new Card("7", "Clubs"),
+        new Card("King", "Diamonds"),
+      ])
+      .mockReturnValueOnce([new Card("2", "Hearts"), new Card("5", "Spades")]);
+    deck.dealCard = jest.fn().mockReturnValueOnce(new Card("4", "Spades"));
+    game = new BlackjackGame(deck, players, 0);
+    game.startGame();
+    game.dealCards();
+    game.hit();
+    expect(game.getCurrentPlayer().getScore()).toBe(21);
+    expect(game.getGameEnd()).toBeTruthy();
+  });
+
   it("should stand", () => {
     game.startGame();
     game.dealCards();
