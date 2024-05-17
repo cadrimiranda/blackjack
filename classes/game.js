@@ -182,8 +182,12 @@ export class BlackjackGame {
     this.activePlayer.addCard(card);
 
     if (this.activePlayer.getIsBusted()) {
-      console.log(this.activePlayer.getHandTotal());
       this.switchPlayer();
+    }
+
+    if (this.activePlayer.getHasBlackJack()) {
+      this.setWinner(this.activePlayer);
+      this.gameEnd = true;
     }
   }
 
