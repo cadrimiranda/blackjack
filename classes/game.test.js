@@ -108,4 +108,70 @@ describe("Blackjack Game logic", () => {
     expect(game.getDrawPlayers()[0].getName()).toBe("Player");
     expect(game.getDrawPlayers()[1].getName()).toBe("Dealer");
   });
+
+  it("should surrender", () => {
+    game.startGame();
+    game.dealCards();
+    game.surrender();
+    expect(game.hasWinner()).toBeTruthy();
+    expect(game.hasDraw()).toBeFalsy();
+    expect(game.getWinner().getName()).toBe("Dealer");
+  });
+
+  it("should hit for one more card", () => {
+    game.startGame();
+    game.dealCards();
+    game.hit();
+    expect(game.getActivePlayer().getHandCards()).toHaveLength(3);
+  });
+
+  it("should hit and bust", () => {
+    deck = new Deck();
+    deck.dealCards = jest
+      .fn()
+      .mockReturnValueOnce([
+        new Card("7", "Clubs"),
+        new Card("10", "Diamonds"),
+        new Card("3", "Diamonds"),
+      ])
+      .mockReturnValueOnce([new Card("2", "Hearts"), new Card("5", "Spades")]);
+    deck.dealCard = jest.fn().mockReturnValueOnce(new Card("2", "Spades"));
+    game = new BlackjackGame(deck, players, 0);
+    game.startGame();
+    game.dealCards();
+    game.hit();
+    expect(game.getActivePlayer().getIsBusted()).toBeTruthy();
+  });
+
+  it("should stand", () => {
+    game.startGame();
+    game.dealCards();
+    game.stand();
+    expect(game.getActivePlayer().getName()).toBe("Dealer");
+  });
+
+  it("should hit and then stand", () => {
+    game.startGame();
+    game.dealCards();
+    game.hit();
+    game.stand();
+    expect(game.getActivePlayer().getName()).toBe("Dealer");
+  });
+
+  it("should dealer hit", () => {
+    game.startGame();
+    game.dealCards();
+    game.stand();
+    expect(game.getActivePlayer().getName()).toBe("Dealer");
+    let dealerHand = game.getActivePlayer().getHandCards();
+    expect(dealerHand).toHaveLength(2);
+    expect(dealerHand[0].getIsHidden()).toBeFalsy();
+    expect(dealerHand[1].getIsHidden()).toBeFalsy();
+    game.hit();
+    dealerHand = game.getActivePlayer().getHandCards();
+    expect(dealerHand).toHaveLength(3);
+    expect(dealerHand[0].getIsHidden()).toBeFalsy();
+    expect(dealerHand[1].getIsHidden()).toBeFalsy();
+    expect(dealerHand[2].getIsHidden()).toBeFalsy();
+  });
 });
