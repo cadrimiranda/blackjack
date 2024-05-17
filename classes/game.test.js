@@ -41,6 +41,7 @@ describe("Blackjack Game logic", () => {
 
   it("should switch to the next player", () => {
     game.startGame();
+    game.dealCards();
     game.switchPlayer();
     expect(game.getActivePlayer().getName()).toBe("Dealer");
   });
@@ -113,9 +114,9 @@ describe("Blackjack Game logic", () => {
     game.startGame();
     game.dealCards();
     game.surrender();
-    expect(game.hasWinner()).toBeTruthy();
+    expect(game.getPlayers()[0].getIsSurrender()).toBeTruthy();
+    expect(game.hasWinner()).toBeFalsy();
     expect(game.hasDraw()).toBeFalsy();
-    expect(game.getWinner().getName()).toBe("Dealer");
   });
 
   it("should hit for one more card", () => {

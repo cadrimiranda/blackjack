@@ -3,8 +3,17 @@ class Player {
     this.name = name;
     this.hand = [];
     this.isBusted = false;
+    this.isSurrender = false;
     this.hasBlackJack = false;
     this.score = 0;
+  }
+
+  setIsSurrendered() {
+    this.isSurrender = true;
+  }
+
+  getIsSurrender() {
+    return this.isSurrender;
   }
 
   getName() {
