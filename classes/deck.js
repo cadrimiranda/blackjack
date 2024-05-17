@@ -1,4 +1,4 @@
-import Card from "./card";
+import Card from "./card.js";
 
 class Deck {
   suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
@@ -29,7 +29,7 @@ class Deck {
     this.deck = [];
     this.suits.forEach((suit) => {
       this.ranks.forEach((rank) => {
-        this.deck.push(new Card(suit, rank));
+        this.deck.push(new Card(rank, suit));
       });
     });
   }
