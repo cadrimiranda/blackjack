@@ -123,7 +123,7 @@ describe("Blackjack Game logic", () => {
     game.startGame();
     game.dealCards();
     game.hit();
-    expect(game.getActivePlayer().getHandCards()).toHaveLength(3);
+    expect(game.getPlayers()[0].getHandCards()).toHaveLength(3);
   });
 
   it("should hit, bust and switch player", () => {
