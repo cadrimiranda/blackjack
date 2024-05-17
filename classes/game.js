@@ -136,6 +136,11 @@ export class BlackjackGame {
       player.setHand(cards);
       this.handleWinnerDraw(player);
     });
+
+    if (this.hasWinner() || this.hasDraw()) {
+      this.getDealer().getHandCards()[1].setIsHidden(false);
+      this.gameEnd = true;
+    }
   }
 
   isDealerPlaying() {
