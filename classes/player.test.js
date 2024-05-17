@@ -105,4 +105,10 @@ describe("Player", () => {
     expect(player.getIsSurrendered()).toBe(false);
     expect(player.getHasBlackJack()).toBe(false);
   });
+
+  it("should not return score if player has hidden card", () => {
+    player.addCard(new Card("Ace", "Spades"));
+    player.addCard(new Card("King", "Hearts", true));
+    expect(player.getScore()).toBe(0);
+  });
 });
