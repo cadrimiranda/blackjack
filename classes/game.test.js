@@ -177,14 +177,53 @@ describe("Blackjack Game logic", () => {
   });
 
   it("should dealer stand and game end", () => {
+    deck = new Deck();
+    // first for player then for dealer
+    deck.dealCards = jest
+      .fn()
+      .mockReturnValueOnce([
+        new Card("Ace", "Clubs"),
+        new Card("7", "Diamonds"),
+      ])
+      .mockReturnValueOnce([
+        new Card("Ace", "Hearts"),
+        new Card("8", "Spades"),
+      ]);
+    deck.dealCard = jest.fn().mockReturnValue(new Card("1", "Spades"));
+    game = new BlackjackGame(deck, players, 0);
+
+    game.startGame();
+    game.dealCards();
+    game.stand();
+    game.stand();
+
+    expect(game.getGameEnd()).toBeTruthy();
+    expect(game.hasDraw()).toBeFalsy();
+    expect(game.hasWinner()).toBeTruthy();
+    expect(game.getWinner().getName()).toBe("Dealer");
+    expect(game.getWinnerScore()).toBe(19);
+
+    game.stand();
+    expect(game.getActivePlayer().getName()).toBe("Dealer");
+    game.hit();
+    expect(game.getActivePlayer().getHandCards()).toHaveLength(2);
+  });
+
+  it("should reset game", () => {
     game.startGame();
     game.dealCards();
     game.stand();
     game.stand();
     expect(game.getGameEnd()).toBeTruthy();
-    game.stand();
-    expect(game.getActivePlayer().getName()).toBe("Dealer");
-    game.hit();
-    expect(game.getActivePlayer().getHandCards()).toHaveLength(2);
+    game.resetGame();
+
+    expect(game.getGameEnd()).toBeFalsy();
+    expect(game.getActivePlayer().getName()).toBe("Player");
+    expect(game.getPlayers()[0].getHandCards()).toHaveLength(0);
+    expect(game.getPlayers()[1].getHandCards()).toHaveLength(0);
+    expect(game.getDeck().getCards()).toHaveLength(52);
+    expect(game.hasDraw()).toBeFalsy();
+    expect(game.hasWinner()).toBeFalsy();
+    expect(game.getWinnerScore()).toBe(0);
   });
 });
