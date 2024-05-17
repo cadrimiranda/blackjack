@@ -177,6 +177,23 @@ export class BlackjackGame {
 
     this.switchPlayer();
   }
+
+  resetGame() {
+    this.gameEnd = false;
+    this.isWinner = false;
+    this.isDraw = false;
+    this.drawPlayers = [];
+    this.winner = null;
+    this.winnerScore = 0;
+    this.currentPlayerIndex = 0;
+    this.activePlayerIndex = 0;
+    this.currentPlayer = this.players[this.currentPlayerIndex];
+    this.activePlayer = this.players[this.activePlayerIndex];
+    this.players.forEach((player) => {
+      player.clearHand();
+    });
+    this.deck.reset();
+  }
 }
 
 export default BlackjackGame;

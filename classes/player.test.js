@@ -102,6 +102,7 @@ describe("Player", () => {
     expect(player.getHandCards()).toHaveLength(0);
     expect(player.getHandTotal()).toBe(0);
     expect(player.getIsBusted()).toBe(false);
+    expect(player.getIsSurrendered()).toBe(false);
     expect(player.getHasBlackJack()).toBe(false);
   });
 });

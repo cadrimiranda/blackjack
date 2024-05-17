@@ -79,6 +79,7 @@ class Player {
   clearHand() {
     this.hand = [];
     this.isBusted = false;
+    this.isSurrender = false;
     this.hasBlackJack = false;
     this.score = 0;
   }
