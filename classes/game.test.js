@@ -87,6 +87,7 @@ describe("Blackjack Game logic", () => {
     expect(game.hasWinner()).toBeTruthy();
     expect(game.hasDraw()).toBeFalsy();
     expect(game.getWinner().getName()).toBe("Dealer");
+    expect(game.getDealer().getHandCards()[1].getIsHidden()).toBeFalsy();
     expect(game.getGameEnd()).toBeTruthy();
   });
 
