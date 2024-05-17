@@ -12,7 +12,7 @@ class Player {
     this.isSurrender = true;
   }
 
-  getIsSurrender() {
+  getIsSurrendered() {
     return this.isSurrender;
   }
 

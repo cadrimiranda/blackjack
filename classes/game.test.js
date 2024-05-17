@@ -104,7 +104,7 @@ describe("Blackjack Game logic", () => {
     game = new BlackjackGame(deck, players, 0);
     game.startGame();
     game.dealCards();
-    expect(game.hasWinner()).toBeTruthy();
+    expect(game.hasWinner()).toBeFalsy();
     expect(game.hasDraw()).toBeTruthy();
     expect(game.getDrawPlayers()[0].getName()).toBe("Player");
     expect(game.getDrawPlayers()[1].getName()).toBe("Dealer");
@@ -114,7 +114,7 @@ describe("Blackjack Game logic", () => {
     game.startGame();
     game.dealCards();
     game.surrender();
-    expect(game.getPlayers()[0].getIsSurrender()).toBeTruthy();
+    expect(game.getPlayers()[0].getIsSurrendered()).toBeTruthy();
     expect(game.hasWinner()).toBeFalsy();
     expect(game.hasDraw()).toBeFalsy();
   });
@@ -174,5 +174,17 @@ describe("Blackjack Game logic", () => {
     expect(dealerHand[0].getIsHidden()).toBeFalsy();
     expect(dealerHand[1].getIsHidden()).toBeFalsy();
     expect(dealerHand[2].getIsHidden()).toBeFalsy();
+  });
+
+  it("should dealer stand and game end", () => {
+    game.startGame();
+    game.dealCards();
+    game.stand();
+    game.stand();
+    expect(game.getGameEnd()).toBeTruthy();
+    game.stand();
+    expect(game.getActivePlayer().getName()).toBe("Dealer");
+    game.hit();
+    expect(game.getActivePlayer().getHandCards()).toHaveLength(2);
   });
 });
