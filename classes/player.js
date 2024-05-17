@@ -23,6 +23,11 @@ class Player {
     return this.hasBlackJack;
   }
 
+  addCard(card) {
+    this.hand.push(card);
+    this.calculateHand();
+  }
+
   setHand(cards) {
     this.hand = cards;
     this.calculateHand();
