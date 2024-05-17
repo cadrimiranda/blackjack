@@ -65,6 +65,7 @@ describe("Blackjack Game logic", () => {
     expect(game.hasWinner()).toBeTruthy();
     expect(game.hasDraw()).toBeFalsy();
     expect(game.getWinner().getName()).toBe("Player");
+    expect(game.getGameEnd()).toBeTruthy();
   });
 
   it("should dealer win with the 2 first cards", () => {
@@ -86,6 +87,7 @@ describe("Blackjack Game logic", () => {
     expect(game.hasWinner()).toBeTruthy();
     expect(game.hasDraw()).toBeFalsy();
     expect(game.getWinner().getName()).toBe("Dealer");
+    expect(game.getGameEnd()).toBeTruthy();
   });
 
   it("should draw", () => {
@@ -108,6 +110,7 @@ describe("Blackjack Game logic", () => {
     expect(game.hasDraw()).toBeTruthy();
     expect(game.getDrawPlayers()[0].getName()).toBe("Player");
     expect(game.getDrawPlayers()[1].getName()).toBe("Dealer");
+    expect(game.getGameEnd()).toBeTruthy();
   });
 
   it("should surrender", () => {
