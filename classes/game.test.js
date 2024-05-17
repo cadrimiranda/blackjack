@@ -124,6 +124,12 @@ describe("Blackjack Game logic", () => {
   });
 
   it("should hit for one more card", () => {
+    deck = new Deck();
+    deck.dealCards = jest
+      .fn()
+      .mockReturnValueOnce([new Card("7", "Clubs"), new Card("2", "Diamonds")]);
+    deck.dealCard = jest.fn().mockReturnValueOnce(new Card("2", "Spades"));
+
     game.startGame();
     game.dealCards();
     game.hit();
