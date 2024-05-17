@@ -25,6 +25,9 @@ class Player {
   }
 
   getScore() {
+    if (this.hand.some((card) => card.getIsHidden())) {
+      return 0;
+    }
     return this.score;
   }
 
