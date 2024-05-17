@@ -220,6 +220,50 @@ describe("Blackjack Game logic", () => {
     expect(game.getActivePlayer().getHandCards()).toHaveLength(2);
   });
 
+  it("should not win if busted even with more score", () => {
+    deck = new Deck();
+    deck.dealCards = jest
+      .fn()
+      .mockReturnValueOnce([
+        new Card("2", "Clubs"),
+        new Card("King", "Diamonds"),
+      ])
+      .mockReturnValueOnce([
+        new Card("King", "Hearts"),
+        new Card("9", "Spades"),
+      ]);
+
+    deck.dealCard = jest.fn().mockReturnValue(new Card("King", "Spades"));
+    game = new BlackjackGame(deck, players, 0);
+    game.startGame();
+    game.dealCards();
+    game.hit();
+    game.stand();
+    expect(game.getWinner().getName()).toBe("Dealer");
+  });
+
+  it("should not win if busted even with more score", () => {
+    deck = new Deck();
+    deck.dealCards = jest
+      .fn()
+      .mockReturnValueOnce([
+        new Card("9", "Clubs"),
+        new Card("King", "Diamonds"),
+      ])
+      .mockReturnValueOnce([
+        new Card("King", "Hearts"),
+        new Card("2", "Spades"),
+      ]);
+
+    deck.dealCard = jest.fn().mockReturnValue(new Card("King", "Spades"));
+    game = new BlackjackGame(deck, players, 0);
+    game.startGame();
+    game.dealCards();
+    game.surrender();
+    game.stand();
+    expect(game.getWinner().getName()).toBe("Dealer");
+  });
+
   it("should reset game", () => {
     game.startGame();
     game.dealCards();
