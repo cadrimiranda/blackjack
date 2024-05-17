@@ -126,7 +126,7 @@ describe("Blackjack Game logic", () => {
     expect(game.getActivePlayer().getHandCards()).toHaveLength(3);
   });
 
-  it("should hit and bust", () => {
+  it("should hit, bust and switch player", () => {
     deck = new Deck();
     deck.dealCards = jest
       .fn()
@@ -141,7 +141,8 @@ describe("Blackjack Game logic", () => {
     game.startGame();
     game.dealCards();
     game.hit();
-    expect(game.getActivePlayer().getIsBusted()).toBeTruthy();
+    expect(game.getCurrentPlayer().getIsBusted()).toBeTruthy();
+    expect(game.getActivePlayer().getName()).toBe("Dealer");
   });
 
   it("should stand", () => {
