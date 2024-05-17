@@ -113,6 +113,9 @@ export class BlackjackGame {
   }
 
   handleWinnerDraw(player) {
+    if (player.getIsSurrendered() || player.getIsBusted()) {
+      return;
+    }
     if (player.getHasBlackJack()) {
       if (this.hasWinner()) {
         this.addDrawPlayer(player);
@@ -179,6 +182,7 @@ export class BlackjackGame {
     this.activePlayer.addCard(card);
 
     if (this.activePlayer.getIsBusted()) {
+      console.log(this.activePlayer.getHandTotal());
       this.switchPlayer();
     }
   }
