@@ -10,7 +10,12 @@ export class BlackjackGame {
     this.isDraw = false;
     this.drawPlayers = [];
     this.winner = null;
+    this.winnerScore = 0;
     this.gameEnd = false;
+  }
+
+  getGameEnd() {
+    return this.gameEnd;
   }
 
   getDrawPlayers() {
@@ -19,6 +24,10 @@ export class BlackjackGame {
 
   getWinner() {
     return this.winner;
+  }
+
+  getWinnerScore() {
+    return this.winnerScore;
   }
 
   hasWinner() {
@@ -53,28 +62,67 @@ export class BlackjackGame {
     this.currentPlayer = this.players[this.currentPlayerIndex];
   }
 
+  clearDraw() {
+    this.drawPlayers = [];
+    this.isDraw = false;
+  }
+
+  addDrawPlayer(player) {
+    if (!this.hasDraw() && this.hasWinner()) {
+      this.drawPlayers.push(this.winner);
+      this.isDraw = true;
+      this.clearWinner();
+    }
+    this.drawPlayers.push(player);
+  }
+
+  setWinner(player) {
+    this.winner = player;
+    this.winnerScore = player.getHandTotal();
+    this.isWinner = true;
+  }
+
+  clearWinner() {
+    this.winner = null;
+    this.winnerScore = 0;
+    this.isWinner = false;
+  }
+
   verifyGameEnd() {
+    if (this.gameEnd) {
+      return;
+    }
+
     if (this.activePlayerIndex === this.players.length - 1) {
       this.gameEnd = true;
+      this.players.forEach((player) => {
+        if (!player.getIsSurrendered() && !player.getIsBusted()) {
+          if (player.getHandTotal() > this.winnerScore) {
+            this.setWinner(player);
+            this.clearDraw();
+          } else if (player.getHandTotal() === this.winnerScore) {
+            this.addDrawPlayer(player);
+          }
+        }
+      });
     }
   }
 
   handleWinnerDraw(player) {
     if (player.getHasBlackJack()) {
       if (this.hasWinner()) {
-        if (!this.hasDraw()) {
-          this.drawPlayers.push(this.winner);
-          this.isDraw = true;
-        }
-        this.drawPlayers.push(player);
+        this.addDrawPlayer(player);
       } else {
-        this.isWinner = true;
-        this.winner = player;
+        this.setWinner(player);
       }
     }
   }
 
   dealCards() {
+    if (this.gameEnd) {
+      return;
+    }
+
     let cards;
     this.players.forEach((player) => {
       cards = this.deck.dealCards(2);
@@ -86,26 +134,47 @@ export class BlackjackGame {
     });
   }
 
+  isDealerPlaying() {
+    return this.activePlayer.getName() === "Dealer";
+  }
+
   switchPlayer() {
+    if (this.isDealerPlaying()) {
+      this.verifyGameEnd();
+      return;
+    }
+
     this.activePlayerIndex = this.activePlayerIndex += 1;
     this.activePlayer = this.players[this.activePlayerIndex];
 
-    if (this.activePlayer.getName() === "Dealer") {
+    if (this.isDealerPlaying()) {
       this.activePlayer.getHandCards()[1].setIsHidden(false);
     }
   }
 
   surrender() {
+    if (this.gameEnd) {
+      return;
+    }
+
     this.activePlayer.setIsSurrendered();
     this.switchPlayer();
   }
 
   hit() {
+    if (this.gameEnd) {
+      return;
+    }
+
     let card = this.deck.dealCard();
     this.activePlayer.addCard(card);
   }
 
   stand() {
+    if (this.gameEnd) {
+      return;
+    }
+
     this.switchPlayer();
   }
 }
