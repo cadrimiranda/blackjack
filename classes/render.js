@@ -71,7 +71,7 @@ class Render {
     }
 
     if (isHidden) {
-      return `<ul class="card hidden">
+      return `<ul class="card card-hidden">
         <div class="card-content">
         <div class="card-icon">?</div>
             <p class="suit top-left">?</p>
@@ -95,6 +95,19 @@ class Render {
       .join(" ")}</li>`;
   };
 
+  renderScore = (player) => {
+    return `<p>Score: ${player.getScore()}</p>`;
+  };
+
+  renderActionButton = (id, text) => {
+    const isGameEnd = this.game.getGameEnd();
+    return `<button
+              class="action-button"
+              id="${id}"
+              ${isGameEnd ? "disabled" : ""}
+            >${text}</button>`;
+  };
+
   renderGame = () => {
     this.clearScreen();
     const isGameEnd = this.game.getGameEnd();
@@ -109,24 +122,22 @@ class Render {
         
         <div class="hand" id="dealer-hand">
             <h2>Dealer's Hand</h2>
+            ${this.renderScore(this.game.getDealer())}
             ${this.renderHand(this.game.getDealer().getHandCards())}
-            <h3>Your Score: ${this.game.getDealer().getScore()}<h3>
         </div>
         <div class="hand" id="player-hand">
-            <h2>Your Hand ${
-              this.game.getPlayers()[0].getIsBusted() ? "BUSTED" : ""
-            }</h2>
-                ${this.renderHand(this.game.getPlayers()[0].getHandCards())}
-            <h3>Your Score: ${this.game.getPlayers()[0].getScore()}</h3>
+            <h2>Your Hand</h2>
+            ${this.renderScore(this.game.getPlayers()[0])}
+            ${this.renderHand(this.game.getPlayers()[0].getHandCards())}
         </div>
-        <div class="buttons">
-            <button ${isGameEnd ? "disabled" : ""} id="hit-button">Hit</button>
-            <button ${
-              isGameEnd ? "disabled" : ""
-            } id="stand-button">Stand</button>
-            <button ${
-              isGameEnd ? "disabled" : ""
-            } id="surrender-button">Surrender</button>
+        <div class="player-actions">
+          ${this.renderActionButton("hit-button", "Hit")}
+          ${this.renderActionButton("stand-button", "Stand")}
+          ${this.renderActionButton("surrender-button", "Surrender")}
+          <button
+            id="reset-button"
+            class="action-button"
+          >Reset</button>
         </div>
       <div id="message"></div>`;
 
@@ -152,16 +163,24 @@ class Render {
 
   surrender = () => {
     this.surrender();
+    this.renderGame();
+  };
+
+  reset = () => {
+    this.game.resetGame();
+    this.startGame();
   };
 
   playGame = () => {
     const hitButton = document.getElementById("hit-button");
     const standButton = document.getElementById("stand-button");
     const surrenderButton = document.getElementById("surrender-button");
+    const resetButton = document.getElementById("reset-button");
 
     hitButton.addEventListener("click", this.hit);
     standButton.addEventListener("click", this.stand);
     surrenderButton.addEventListener("click", this.surrender);
+    resetButton.addEventListener("click", this.reset);
   };
 }
 
