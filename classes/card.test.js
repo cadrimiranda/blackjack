@@ -43,6 +43,15 @@ describe("Card", () => {
     expect(card.toString()).toBe("Hidden");
   });
 
+  it("should return King, Queen, Jack for the face cards", () => {
+    card.setRank("King");
+    expect(card.getRank()).toBe("K");
+    card.setRank("Queen");
+    expect(card.getRank()).toBe("Q");
+    card.setRank("Jack");
+    expect(card.getRank()).toBe("J");
+  });
+
   it("should return the card value for Ace, King, Queen and Jack", () => {
     card.setRank("Ace");
     expect(card.getValue()).toBe(11);
