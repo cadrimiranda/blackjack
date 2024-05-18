@@ -14,6 +14,18 @@ class Card {
   }
 
   getRank() {
+    if (this.rank === "King") {
+      return "K";
+    }
+
+    if (this.rank === "Queen") {
+      return "Q";
+    }
+
+    if (this.rank === "Jack") {
+      return "J";
+    }
+
     return this.rank;
   }
 

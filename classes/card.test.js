@@ -26,7 +26,7 @@ describe("Card", () => {
 
   it("should allow setting a new rank", () => {
     card.setRank("King");
-    expect(card.getRank()).toBe("King");
+    expect(card.getRank()).toBe("K");
   });
 
   it("should allow setting the hidden state", () => {
