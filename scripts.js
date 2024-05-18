@@ -1,5 +1,8 @@
 import Render from "./classes/render.js";
 
+let render;
+
 window.onload = function () {
-  Render.renderInitialPage();
+  render = new Render();
+  render.renderInitialPage();
 };
