@@ -26,6 +26,10 @@ class Card {
       return "J";
     }
 
+    if (this.rank === "Ace") {
+      return "A";
+    }
+
     return this.rank;
   }
 

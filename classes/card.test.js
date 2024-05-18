@@ -12,7 +12,7 @@ describe("Card", () => {
   });
 
   it("should have a rank", () => {
-    expect(card.getRank()).toBe("Ace");
+    expect(card.getRank()).toBe("A");
   });
 
   it("should not be hidden by default", () => {
@@ -50,6 +50,8 @@ describe("Card", () => {
     expect(card.getRank()).toBe("Q");
     card.setRank("Jack");
     expect(card.getRank()).toBe("J");
+    card.setRank("Ace");
+    expect(card.getRank()).toBe("A");
   });
 
   it("should return the card value for Ace, King, Queen and Jack", () => {
