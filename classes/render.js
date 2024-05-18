@@ -3,6 +3,11 @@ import BlackjackGame from "./game.js";
 import Player from "./player.js";
 
 class Render {
+  SPADE = "&#9824;";
+  HEART = "&#9829;";
+  DIAMOND = "&#9830;";
+  CLUB = "&#9827;";
+
   constructor() {
     const deck = new Deck();
     const players = [new Player("Player"), new Player("Dealer")];
@@ -42,6 +47,54 @@ class Render {
     }
   };
 
+  renderCard = (card) => {
+    const suit = card.getSuit();
+    const rank = card.getRank();
+    const isHidden = card.getIsHidden();
+
+    let suitIcon;
+    switch (suit) {
+      case "Spades":
+        suitIcon = this.SPADE;
+        break;
+      case "Hearts":
+        suitIcon = this.HEART;
+        break;
+      case "Diamonds":
+        suitIcon = this.DIAMOND;
+        break;
+      case "Clubs":
+        suitIcon = this.CLUB;
+        break;
+      default:
+        suitIcon = "";
+    }
+
+    if (isHidden) {
+      return `<ul class="card hidden">
+        <div class="card-content">
+        <div class="card-icon">?</div>
+            <p class="suit top-left">?</p>
+            <p class="suit bottom-right">?</p>
+        </div>
+    </ul>`;
+    }
+
+    return `<ul class="card ${suit}">
+        <div class="card-content">
+            <div class="card-icon">${suitIcon}</div>
+            <p class="suit top-left">${rank}<span>${suitIcon}</span></p>
+            <p class="suit bottom-right">${rank}<span>${suitIcon}</span></p>
+        </div>
+    </ul>`;
+  };
+
+  renderHand = (hand) => {
+    return `<li class="player-hand-cards">${hand
+      .map(this.renderCard)
+      .join(" ")}</li>`;
+  };
+
   renderGame = () => {
     this.clearScreen();
     const isGameEnd = this.game.getGameEnd();
@@ -56,22 +109,14 @@ class Render {
         
         <div class="hand" id="dealer-hand">
             <h2>Dealer's Hand</h2>
-            <div id="dealer-hand">${this.game
-              .getDealer()
-              .getHandCards()
-              .map((x) => `<span>${x.toString()}</span>`)}</div>
+            ${this.renderHand(this.game.getDealer().getHandCards())}
             <h3>Your Score: ${this.game.getDealer().getScore()}<h3>
         </div>
         <div class="hand" id="player-hand">
             <h2>Your Hand ${
               this.game.getPlayers()[0].getIsBusted() ? "BUSTED" : ""
             }</h2>
-            <div id="player-hand">
-            ${this.game
-              .getPlayers()[0]
-              .getHandCards()
-              .map((x) => `<span>${x.toString()}</span>`)}
-            </div>
+                ${this.renderHand(this.game.getPlayers()[0].getHandCards())}
             <h3>Your Score: ${this.game.getPlayers()[0].getScore()}</h3>
         </div>
         <div class="buttons">
