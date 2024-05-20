@@ -160,7 +160,16 @@ export class BlackjackGame {
     this.activePlayer = this.players[this.activePlayerIndex];
 
     if (this.isDealerPlaying()) {
-      this.activePlayer.getHandCards()[1].setIsHidden(false);
+      this.activePlayer
+        .getHandCards()
+        [this.players.length - 1].setIsHidden(false);
+
+      const playersOut = this.players.filter(
+        (p) => p.getIsSurrendered() || p.getIsBusted()
+      );
+      if (playersOut.length === this.players.length - 1) {
+        this.verifyGameEnd();
+      }
     }
   }
 

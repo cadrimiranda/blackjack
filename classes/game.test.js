@@ -114,12 +114,13 @@ describe("Blackjack Game logic", () => {
     expect(game.getGameEnd()).toBeTruthy();
   });
 
-  it("should surrender", () => {
+  it("should surrender and next player win", () => {
     game.startGame();
     game.dealCards();
     game.surrender();
     expect(game.getPlayers()[0].getIsSurrendered()).toBeTruthy();
-    expect(game.hasWinner()).toBeFalsy();
+    expect(game.hasWinner()).toBeTruthy();
+    expect(game.getWinner().getName()).toBe("Dealer");
     expect(game.hasDraw()).toBeFalsy();
   });
 

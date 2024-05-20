@@ -38,7 +38,6 @@ class Render {
     const winner = this.game.getWinner();
     const hasDraw = this.game.hasDraw();
     const drawPlayers = this.game.getDrawPlayers();
-    let message = "";
 
     if (hasWinner) {
       return `<span>WINNER WINNER CHIKEN DINER!!!!!!! ${winner.getName()} wins!</span>`;
@@ -162,7 +161,7 @@ class Render {
   };
 
   surrender = () => {
-    this.surrender();
+    this.game.surrender();
     this.renderGame();
   };
 
