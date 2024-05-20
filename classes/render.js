@@ -89,14 +89,13 @@ class Render {
   };
 
   renderHand = (player) => {
-    return `<li class="${this.getHandClassname(player)}">${player
-      .getHandCards()
-      .map(this.renderCard)
-      .join(" ")}</li>`;
+    return `<li id="${player.getName()}" class="${this.getHandClassname(
+      player
+    )}">${player.getHandCards().map(this.renderCard).join(" ")}</li>`;
   };
 
   renderScore = (player) => {
-    return `<p>Score: ${player.getScore()}</p>`;
+    return `<p id="score-${player.getName()}">Score: ${player.getScore()}</p>`;
   };
 
   renderPlayerStatus = (player) => {
@@ -122,12 +121,12 @@ class Render {
       this.game.hasDraw() &&
       this.game.getDrawPlayers().some((p) => p.getName() === player.getName())
     ) {
-      return `Draw!`;
+      message = `Draw!`;
     }
 
     if (message === null) return "";
 
-    return `<p class="player-status">${message}</p>`;
+    return `<p id="status-${player.getName()}" class="player-status">${message}</p>`;
   };
 
   renderActionButton = (id, text) => {
@@ -164,6 +163,11 @@ class Render {
 
   renderGame = () => {
     this.clearScreen();
+    console.log(
+      "renderGame",
+      this.game.getDealer(),
+      this.game.getCurrentPlayer()
+    );
 
     const htmlString = `
       <div class="container">
