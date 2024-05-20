@@ -2,10 +2,47 @@ body {
     background: radial-gradient(circle, #4a4a4a, #1e1e1e);
     color: #fff;
     font-family: 'Helvetica Neue', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+}
+
+.intro-title {
+    color: #FFD700; /* Gold color */
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px #000;
+}
+
+.start-game {
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    background-color: #4CAF50; /* Green color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+}
+
+.start-game:hover {
+    background-color: #45a049;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.start-game:focus {
+    outline: none;
 }
 
 ul, li {
     list-style-type: none;
+}
+
+.container {
+    width: 100%;
 }
 
 .player-hand-cards  {
@@ -136,5 +173,22 @@ ul, li {
 
 .action-button:focus {
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8), 0 0 0 4px #d35400;
+}
+
+.hand {
+    position: relative;
+}
+
+.active-hand {
+    border: 2px solid #d35400;
+}
+
+.player-status {
+    position: absolute;
+    top: 50%;
+    background: rgba(0, 0, 0, 0.80);
+    width: 100%;
+    padding: 16px;
+    text-align: center;
 }
 

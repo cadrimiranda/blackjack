@@ -19,6 +19,7 @@ class Render {
   renderInitialPage = () => {
     const title = document.createElement("h1");
     title.textContent = "Blackjack";
+    title.classList.add("intro-title");
 
     const startButton = document.createElement("button");
     startButton.textContent = "Start Game";
@@ -31,19 +32,6 @@ class Render {
 
   clearScreen = () => {
     this.body.innerHTML = "";
-  };
-
-  renderWinnerOrDrawMessage = () => {
-    const hasWinner = this.game.hasWinner();
-    const winner = this.game.getWinner();
-    const hasDraw = this.game.hasDraw();
-    const drawPlayers = this.game.getDrawPlayers();
-
-    if (hasWinner) {
-      return `<span>WINNER WINNER CHIKEN DINER!!!!!!! ${winner.getName()} wins!</span>`;
-    } else if (hasDraw) {
-      return `<span>It's a draw between ${drawPlayers[0].getName()} and ${drawPlayers[1].getName()}!</span>`;
-    }
   };
 
   renderCard = (card) => {
@@ -88,14 +76,58 @@ class Render {
     </ul>`;
   };
 
-  renderHand = (hand) => {
-    return `<li class="player-hand-cards">${hand
+  getIsPlayerActive = (player) => {
+    return this.game.getActivePlayer().getName() === player.getName();
+  };
+
+  getHandClassname = (player) => {
+    let handClassname = "player-hand-cards";
+    if (this.getIsPlayerActive(player)) {
+      handClassname += " active-hand";
+    }
+    return handClassname;
+  };
+
+  renderHand = (player) => {
+    return `<li class="${this.getHandClassname(player)}">${player
+      .getHandCards()
       .map(this.renderCard)
       .join(" ")}</li>`;
   };
 
   renderScore = (player) => {
     return `<p>Score: ${player.getScore()}</p>`;
+  };
+
+  renderPlayerStatus = (player) => {
+    let message = null;
+    if (player.getIsBusted()) {
+      message = `Busted!`;
+    }
+    if (player.getHasBlackJack()) {
+      message = `Blackjack!`;
+    }
+    if (player.getIsSurrendered()) {
+      message = `Surrendered!`;
+    }
+
+    if (
+      this.game.hasWinner() &&
+      this.game.getWinner().getName() === player.getName()
+    ) {
+      message = `WINNER WINNER CHIKEN DINER!`;
+    }
+
+    if (
+      this.game.hasDraw() &&
+      this.game.getDrawPlayers().some((p) => p.getName() === player.getName())
+    ) {
+      return `Draw!`;
+    }
+
+    if (message === null) return "";
+
+    return `<p class="player-status">${message}</p>`;
   };
 
   renderActionButton = (id, text) => {
@@ -107,38 +139,39 @@ class Render {
             >${text}</button>`;
   };
 
+  renderPlayerActions = () => `
+    <div class="player-actions">
+      ${this.renderActionButton("hit-button", "Hit")}
+      ${this.renderActionButton("stand-button", "Stand")}
+      ${this.renderActionButton("surrender-button", "Surrender")}
+      <button
+        id="reset-button"
+        class="action-button"
+      >Reset</button>
+    </div>
+  `;
+
+  renderPlayer = (player) => {
+    return `
+    <div class="hand" id="player-hand">
+        <h2>${player.getName()} Hand</h2>
+        ${this.renderScore(player)}
+        ${this.renderHand(player)}
+        ${this.renderPlayerStatus(player)}
+    </div>
+    ${this.getIsPlayerActive(player) ? this.renderPlayerActions() : ""}`;
+  };
+
   renderGame = () => {
     this.clearScreen();
-    const isGameEnd = this.game.getGameEnd();
 
-    const htmlString = `<div class="container">
+    const htmlString = `
+      <div class="container">
         <h1>Blackjack Game</h1>
-        ${
-          isGameEnd
-            ? this.renderWinnerOrDrawMessage()
-            : `<p>Turn: ${this.game.getActivePlayer().getName()}</p>`
-        }
-        
-        <div class="hand" id="dealer-hand">
-            <h2>Dealer's Hand</h2>
-            ${this.renderScore(this.game.getDealer())}
-            ${this.renderHand(this.game.getDealer().getHandCards())}
-        </div>
-        <div class="hand" id="player-hand">
-            <h2>Your Hand</h2>
-            ${this.renderScore(this.game.getPlayers()[0])}
-            ${this.renderHand(this.game.getPlayers()[0].getHandCards())}
-        </div>
-        <div class="player-actions">
-          ${this.renderActionButton("hit-button", "Hit")}
-          ${this.renderActionButton("stand-button", "Stand")}
-          ${this.renderActionButton("surrender-button", "Surrender")}
-          <button
-            id="reset-button"
-            class="action-button"
-          >Reset</button>
-        </div>
-      <div id="message"></div>`;
+        ${this.renderPlayer(this.game.getDealer())}
+        ${this.renderPlayer(this.game.getCurrentPlayer())}
+      </div>
+    `;
 
     this.body.innerHTML += htmlString;
     this.playGame();
